@@ -4,33 +4,17 @@ import { SearchBox } from './components/search-box/search-box.component';
 import './App.css';
 
 class App extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      cats: [],
-      searchField: ''
-    };
-
-    // unnecessary bcz we are using arrow fn for handleChange
-    // this.handleChange = this.handleChange.bind(this);
-  }
+  state = {
+    cats: [],
+    searchField: ''
+  };
 
   componentDidMount() {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
-      .then(users => {
-        console.log(users);
-        this.setState({ cats: users });
-      });
+      .then(users => this.setState({ cats: users }));
   }
 
-  // 'this' is not bound to class instance so we need bind() above
-  // handleChange(e) {
-  //   this.setState({ searchField: e.target.value });
-  // }
-
-  // 'this' is bound to class instance
   handleChange = e => {
     this.setState({ searchField: e.target.value });
   };
@@ -43,11 +27,7 @@ class App extends Component {
     return (
       <div className='App'>
         <h1>Cats Rolodex</h1>
-        <SearchBox
-          placeholder='search cats'
-          // handleChange={e => this.handleChange(e)} // not necessary
-          handleChange={this.handleChange}
-        />
+        <SearchBox placeholder='search cats' handleChange={this.handleChange} />
         <CardList cats={filteredCats} />
       </div>
     );
