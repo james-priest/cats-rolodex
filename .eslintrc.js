@@ -38,9 +38,10 @@ module.exports = {
     "prettier/prettier": ["error",
       {
         // "trailingComma": "es5",
-        "singleQuote": true,
+        "jsxSingleQuote": true,
         "printWidth": 80,
-        "semi": true
+        "semi": true,
+        "singleQuote": true,
       }
     ],
     "react/jsx-filename-extension": [
