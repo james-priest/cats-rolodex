@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { CardList } from './components/card-list/card-list.component';
+import { SearchBox } from './components/search-box/search-box.component';
 import './App.css';
 
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
-      monsters: []
+      cats: [],
+      searchField: ''
     };
+
+    // unnecessary bcz we are using arrow fn for handleChange
+    // this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -15,14 +21,34 @@ class App extends Component {
       .then(response => response.json())
       .then(users => {
         console.log(users);
-        this.setState({ monsters: users });
+        this.setState({ cats: users });
       });
   }
 
+  // 'this' is not bound to class instance so we need bind() above
+  // handleChange(e) {
+  //   this.setState({ searchField: e.target.value });
+  // }
+
+  // 'this' is bound to class instance
+  handleChange = e => {
+    this.setState({ searchField: e.target.value });
+  };
+
   render() {
+    const { cats, searchField } = this.state;
+    const filteredCats = cats.filter(cat =>
+      cat.name.toLowerCase().includes(searchField.toLowerCase())
+    );
     return (
-      <div className="App">
-        <CardList monsters={this.state.monsters} />
+      <div className='App'>
+        <h1>Cats Rolodex</h1>
+        <SearchBox
+          placeholder='search cats'
+          // handleChange={e => this.handleChange(e)} // not necessary
+          handleChange={this.handleChange}
+        />
+        <CardList cats={filteredCats} />
       </div>
     );
   }
